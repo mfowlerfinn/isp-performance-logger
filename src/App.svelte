@@ -4,17 +4,16 @@
 
 	export let name;
 	$: objString = JSON.stringify($data);
-	$: last = `Last Updated at ${$lastLine.timeStamp}`;
+	$: last = `Updated at ${$lastLine.timeStamp}`;
 </script>
 
 <svelte:head>
 	<title>{name}</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.css" />
 </svelte:head>
 
 <style>
 	h1 {
-		color: purple;
+		color: green;
 	}
 	main {
 		margin: 20px;

@@ -3,8 +3,6 @@
 import firebase from "firebase/app";
 import "firebase/database";
 import { writable } from "svelte/store";
-// import { createEventDispatcher } from "svelte";
-// const dispatch = createEventDispatcher();
 
 export const data = writable("syncing with Firebase...");
 export const lastLine = writable("");

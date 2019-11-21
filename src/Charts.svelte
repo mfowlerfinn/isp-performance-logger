@@ -37,13 +37,13 @@ $: if($data.length > 1 && isMounted) {
 var layout = {
   xaxis: {
     showticklabels: false,
-    showgrid: false
-    // ticks: 'outside',
-    // tick0: 0,
-    // dtick: 5,
-    // ticklen: 8,
-    // tickwidth: 4,
-    // tickcolor: '#000'
+    showgrid: true,
+    ticks: 'outside',
+    tick0: 4,
+    dtick: 6, //6 tick per hour (one tick per sample)
+    ticklen: 0,
+    tickwidth: 0
+    //tickcolor: '#000'
   },
   yaxis: {
     autotick: false,
@@ -58,10 +58,10 @@ var layout = {
   font: {size: 18},
   legend: {
     orientation: "h"
-    },
+  },
   margin: {
-    l: 50,
-    r: 50,
+    l: 70,
+    r: 70,
     b: 15,
     t: 15,
     pad: 4
