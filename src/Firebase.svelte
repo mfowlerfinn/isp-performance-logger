@@ -22,31 +22,60 @@ const db = firebase.database();
 
 let block = [];
 
-var query = firebase
-  .database()
-  .ref("speedTests/")
-  .orderByKey();
-query.once("value").then(function(snapshot) {
-  snapshot.forEach(function(childSnapshot) {
-    var epoch = parseInt(childSnapshot.key);
-    var timeStamp = new Date(epoch).toLocaleString([], {
+let expectedSampleInterval = 600000; //10 minutes
+let expectedTimeout = expectedSampleInterval / 3;
+let maxInterval = expectedSampleInterval + expectedTimeout;
+let lastEpoch = 0;
+
+function getTime(epoch) {
+    var formattedTime = new Date(epoch).toLocaleString([], {
       year: "numeric",
       month: "numeric",
       day: "numeric",
       hour: "2-digit",
       minute: "2-digit"
     });
+    return formattedTime;
+}
+
+function sendData(t, stats) {
+        console.log('downtime detected; updating database...');
+        db.ref('speedTests/' + t).set(stats);
+}
+
+
+var query = db.ref("speedTests/").orderByKey();
+
+query.once("value").then(function(snapshot) {
+  snapshot.forEach(function(childSnapshot) {
+    var epoch = parseInt(childSnapshot.key);
+    
+    while (lastEpoch + maxInterval < epoch && lastEpoch != 0) { //missing data, downtime assumed
+      lastEpoch += expectedSampleInterval;
+      let timeStamp = getTime(lastEpoch);
+      let { download, ping, upload } = {download: 0, ping: 0, upload: 0};
+      let t = lastEpoch;
+      let stats = { download, upload, ping };
+      sendData(t, stats);
+      block.push({ timeStamp, download, ping, upload });
+    } 
+
+    let timeStamp = getTime(epoch);
+
     // childData will be the actual contents of the child
     var { download, ping, upload } = childSnapshot.val();
     block.push({ timeStamp, download, ping, upload });
+    lastEpoch = epoch;
   });
-  console.log(block);
+  // console.log(block);
   let last = block[block.length - 1];
   lastLine.set(last);
   data.set(block);
   //data is ready
   // dispatch('ready');
 });
+
+
 </script>
 
 

@@ -12,17 +12,17 @@ onMount(() => {
   isMounted = true;
 });
 
-$: if($data.length > 1 && isMounted) {
+$: if($data.length > 50 && isMounted) {
   const renderCharts = () => {
-      Plotly.newPlot('chart-plotly', dataToChart, layout, {displayModeBar: false, responsive: true});
+      Plotly.newPlot('chart-plotly', dataToChart, layout, {displayModeBar: true, responsive: true});
   };
 
   let len = $data.length;
 
   for ( let i = 0; i < len; i++ ) {
     let sample = $data[i];
-    let epoch = sample.timeStamp;
-    //let epoch = new Date(sample.timeStamp).valueOf();
+    //let epoch = sample.timeStamp;
+    let epoch = new Date(sample.timeStamp).valueOf();
     dEpoch.push(epoch);
     dDown.push(sample.download);
     dUp.push(sample.upload);
@@ -31,6 +31,11 @@ $: if($data.length > 1 && isMounted) {
 
   renderCharts();
 }
+
+let now = Date.now();
+let lastDay = now - 86400000;
+// console.log(dEpoch);
+// console.log({now, lastDay});
 
 
 
@@ -42,7 +47,9 @@ var layout = {
     tick0: 4,
     dtick: 6, //6 tick per hour (one tick per sample)
     ticklen: 0,
-    tickwidth: 0
+    tickwidth: 0,
+    type: 'date',
+    range: [lastDay, now]
     //tickcolor: '#000'
   },
   yaxis: {

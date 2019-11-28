@@ -4,7 +4,7 @@
 
 	export let name;
 	$: objString = JSON.stringify($data);
-	$: last = `Updated at ${$lastLine.timeStamp}`;
+	$: last = ($lastLine.timeStamp) ? `Updated at ${$lastLine.timeStamp}` : `Downloading from database...`;
 </script>
 
 <svelte:head>
