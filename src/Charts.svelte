@@ -33,7 +33,8 @@ $: if($data.length > 50 && isMounted) {
 }
 
 let now = Date.now();
-let lastDay = now - 86400000;
+let oneDayInSeconds = 86400000;
+let lastDay = now - oneDayInSeconds;
 // console.log(dEpoch);
 // console.log({now, lastDay});
 
@@ -59,7 +60,8 @@ var layout = {
     dtick: 10,
     ticklen: 4,
     tickwidth: 2,
-    tickcolor: '#000'
+    tickcolor: '#000',
+    range: [ 0, 100 ]
   },
   // showlegend: true,
   font: {size: 18},
