@@ -7,16 +7,13 @@ let dUp =[];
 let dPing = [];
 let dEpoch = [];
 let isMounted = false;
+$: maxSpeed = 0;
 
 onMount(() => {
   isMounted = true;
 });
 
 $: if($data.length > 50 && isMounted) {
-  const renderCharts = () => {
-      Plotly.newPlot('chart-plotly', dataToChart, layout, {displayModeBar: true, responsive: true});
-  };
-
   let len = $data.length;
 
   for ( let i = 0; i < len; i++ ) {
@@ -25,19 +22,14 @@ $: if($data.length > 50 && isMounted) {
     let epoch = new Date(sample.timeStamp).valueOf();
     dEpoch.push(epoch);
     dDown.push(sample.download);
+    if(sample.download > maxSpeed) maxSpeed = sample.download;
     dUp.push(sample.upload);
     dPing.push(sample.ping);
   }
 
-  renderCharts();
-}
-
 let now = Date.now();
 let oneDayInSeconds = 86400000;
 let lastDay = now - oneDayInSeconds;
-// console.log(dEpoch);
-// console.log({now, lastDay});
-
 
 
 var layout = {
@@ -51,17 +43,14 @@ var layout = {
     tickwidth: 0,
     type: 'date',
     range: [lastDay, now]
-    //tickcolor: '#000'
   },
   yaxis: {
-    autotick: false,
+    autotick: true,
     ticks: 'outside',
     tick0: 0,
-    dtick: 10,
-    ticklen: 4,
     tickwidth: 2,
     tickcolor: '#000',
-    range: [ 0, 100 ]
+    range: [ 0, maxSpeed + (maxSpeed * 0.1) ]
   },
   // showlegend: true,
   font: {size: 18},
@@ -105,4 +94,13 @@ var linePing = {
 };
 
 var dataToChart = [lineDown, lineUp, linePing];
+
+  const renderCharts = () => {
+      Plotly.newPlot('chart-plotly', dataToChart, layout, {displayModeBar: true, responsive: true});
+  };
+
+  renderCharts();
+}
+
+
 </script>
