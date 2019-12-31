@@ -7,6 +7,7 @@ let dUp =[];
 let dPing = [];
 let dEpoch = [];
 let isMounted = false;
+let maxPing = 500;
 $: maxSpeed = 0;
 
 onMount(() => {
@@ -24,7 +25,7 @@ $: if($data.length > 50 && isMounted) {
     dDown.push(sample.download);
     if(sample.download > maxSpeed) maxSpeed = sample.download;
     dUp.push(sample.upload);
-    dPing.push(sample.ping);
+    (sample.ping > maxPing) ? dPing.push(maxPing) : dPing.push(sample.ping);
   }
 
 let now = Date.now();

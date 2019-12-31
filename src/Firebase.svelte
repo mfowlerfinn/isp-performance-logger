@@ -44,7 +44,7 @@ function sendData(t, stats) {
 }
 
 
-var query = db.ref("speedTests/").orderByKey();
+var query = db.ref("speedTests/").orderByKey().limitToLast(432); //last 3 days
 
 query.once("value").then(function(snapshot) {
   snapshot.forEach(function(childSnapshot) {
