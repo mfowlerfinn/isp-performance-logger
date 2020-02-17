@@ -6,23 +6,15 @@
 	$: objString = JSON.stringify($data);
 	$: last = ($lastLine.timeStamp) ? `Updated at ${$lastLine.timeStamp}` : `Downloading from database...`;
 </script>
+<Charts />
 
 <svelte:head>
 	<title>{name}</title>
 </svelte:head>
 
-<style>
-	h1 {
-		color: green;
-	}
-	main {
-		margin: 20px;
-	}
-</style>
 
 <main class="content">
 	<h1>{name}</h1>
-	<Charts />
+	<!-- <p id="update-status">{last}</p> -->
 	<div id="chart-plotly"></div>
-	<p>{last}</p>
 </main>

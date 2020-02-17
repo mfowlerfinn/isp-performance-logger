@@ -31,19 +31,27 @@ $: if($data.length > 50 && isMounted) {
 let now = Date.now();
 let oneDayInSeconds = 86400000;
 let lastDay = now - oneDayInSeconds;
+let last48 = lastDay - oneDayInSeconds;
 
 
 var layout = {
+  autosize: true,
+  
+  height: 500,
   xaxis: {
-    showticklabels: false,
-    showgrid: true,
-    ticks: 'outside',
-    tick0: 4,
-    dtick: 6, //6 tick per hour (one tick per sample)
-    ticklen: 0,
-    tickwidth: 0,
+    gridcolor: 'grey',
+    // showticklabels: true,
+    autotick: true,
+    tickangle:90,
+    // showgrid: true,
+    ticks: 'inside',
+    // tick0: 4,
+    // dtick: 6, //6 tick per hour (one tick per sample)
+    ticklen: 6,
+    tickwidth: 2,
     type: 'date',
-    range: [lastDay, now]
+    range: [last48, now],
+    automargin: true
   },
   yaxis: {
     autotick: true,
@@ -51,18 +59,22 @@ var layout = {
     tick0: 0,
     tickwidth: 2,
     tickcolor: '#000',
-    range: [ 0, maxSpeed + (maxSpeed * 0.1) ]
+    range: [ 0, maxSpeed + (maxSpeed * 0.1) ],
+    automargin: true
   },
-  // showlegend: true,
+  showlegend: true,
   font: {size: 18},
   legend: {
-    orientation: "h"
+    orientation: "h",
+      x: -.01,
+      y: 1.2
+    
   },
   margin: {
-    l: 70,
-    r: 70,
-    b: 15,
-    t: 15,
+    l: 0,
+    r: 0,
+    b: 0,
+    t: 0,
     pad: 4
   },
 };
@@ -97,7 +109,7 @@ var linePing = {
 var dataToChart = [lineDown, lineUp, linePing];
 
   const renderCharts = () => {
-      Plotly.newPlot('chart-plotly', dataToChart, layout, {displayModeBar: true, responsive: true});
+      Plotly.newPlot('chart-plotly', dataToChart, layout, {displayModeBar: false, responsive: true, displayLogo: false});
   };
 
   renderCharts();
