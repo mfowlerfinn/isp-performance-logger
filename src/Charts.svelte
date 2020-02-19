@@ -15,6 +15,10 @@ onMount(() => {
 });
 
 $: if($data.length > 50 && isMounted) {
+  dDown = [];
+  dUp =[];
+  dPing = [];
+  dEpoch = [];
   let len = $data.length;
 
   for ( let i = 0; i < len; i++ ) {
@@ -28,15 +32,15 @@ $: if($data.length > 50 && isMounted) {
     (sample.ping > maxPing) ? dPing.push(maxPing) : dPing.push(sample.ping);
   }
 
-let now = Date.now();
 let oneDayInSeconds = 86400000;
+let now = Date.now()+oneDayInSeconds/6;
 let lastDay = now - oneDayInSeconds;
 let last48 = lastDay - oneDayInSeconds;
+// console.log(now);
 
 
 var layout = {
   autosize: true,
-  
   height: 500,
   xaxis: {
     gridcolor: 'grey',
@@ -75,7 +79,7 @@ var layout = {
     r: 0,
     b: 0,
     t: 0,
-    pad: 4
+    pad: 0
   },
 };
 
@@ -109,7 +113,18 @@ var linePing = {
 var dataToChart = [lineDown, lineUp, linePing];
 
   const renderCharts = () => {
+    // console.log($data);
+    // console.log($data.length);
+    let chartDiv = document.getElementById('chart-plotly');
+    let chartExists = (chartDiv.innerHTML.length > 0 ) ? true : false;
+    // console.log(chartExists);
+    if (chartExists) {
+      //update data, update layout
+      // document.querySelector('.plot-container').remove();
       Plotly.newPlot('chart-plotly', dataToChart, layout, {displayModeBar: false, responsive: true, displayLogo: false});
+    } else {
+      Plotly.newPlot('chart-plotly', dataToChart, layout, {displayModeBar: false, responsive: true, displayLogo: false});
+    }
   };
 
   renderCharts();
