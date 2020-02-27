@@ -41,14 +41,13 @@ let last48 = lastDay - oneDayInSeconds;
 
 var layout = {
   autosize: true,
-  height: 500,
   xaxis: {
     gridcolor: 'grey',
     // showticklabels: true,
     autotick: true,
-    tickangle:90,
+    tickangle:45,
     // showgrid: true,
-    ticks: 'inside',
+    ticks: 'outside',
     // tick0: 4,
     // dtick: 6, //6 tick per hour (one tick per sample)
     ticklen: 6,
@@ -66,8 +65,8 @@ var layout = {
     range: [ 0, maxSpeed + (maxSpeed * 0.1) ],
     automargin: true
   },
-  showlegend: true,
-  font: {size: 18},
+  showlegend: false,
+  font: {size: 16},
   legend: {
     orientation: "h",
       x: -.01,

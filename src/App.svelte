@@ -10,6 +10,16 @@
 	$: averageSpeed = $upStats.averageSpeed;
 	$: networkUp = $upStats.networkUp;
 	$: percentUptime = $upStats.percentUptime;
+
+	let vh = window.innerHeight;
+	document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+	function setWindowHeight() {
+  	vh = window.innerHeight;
+  	document.documentElement.style.setProperty('--vh', `${vh}px`);
+	}
+
+	window.addEventListener('resize', setWindowHeight);
 </script>
 <Charts />
 
