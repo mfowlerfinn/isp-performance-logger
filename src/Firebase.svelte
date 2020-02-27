@@ -28,7 +28,8 @@ const db = firebase.database();
 let expectedSampleInterval = 600000; //in milliseconds (10 minutes)
 let expectedTimeout = expectedSampleInterval / 3;
 let maxInterval = expectedSampleInterval + expectedTimeout;
-let numberSamples = 432; //last 3 days
+let samplesPerDay = 144;
+let numberSamples = samplesPerDay * 2; //last 2 days
 let lastEpoch;
 
 function getTime(epoch) {

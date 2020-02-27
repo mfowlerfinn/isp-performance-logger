@@ -23,7 +23,6 @@ $: if($data.length > 50 && isMounted) {
 
   for ( let i = 0; i < len; i++ ) {
     let sample = $data[i];
-    //let epoch = sample.timeStamp;
     let epoch = new Date(sample.timeStamp).valueOf();
     dEpoch.push(epoch);
     dDown.push(sample.download);
@@ -33,7 +32,7 @@ $: if($data.length > 50 && isMounted) {
   }
 
 let oneDayInSeconds = 86400000;
-let now = Date.now()+oneDayInSeconds/6;
+let now = Date.now();
 let lastDay = now - oneDayInSeconds;
 let last48 = lastDay - oneDayInSeconds;
 // console.log(now);
@@ -43,13 +42,9 @@ var layout = {
   autosize: true,
   xaxis: {
     gridcolor: 'grey',
-    // showticklabels: true,
     autotick: true,
     tickangle:45,
-    // showgrid: true,
     ticks: 'outside',
-    // tick0: 4,
-    // dtick: 6, //6 tick per hour (one tick per sample)
     ticklen: 6,
     tickwidth: 2,
     type: 'date',
@@ -112,14 +107,9 @@ var linePing = {
 var dataToChart = [lineDown, lineUp, linePing];
 
   const renderCharts = () => {
-    // console.log($data);
-    // console.log($data.length);
     let chartDiv = document.getElementById('chart-plotly');
     let chartExists = (chartDiv.innerHTML.length > 0 ) ? true : false;
-    // console.log(chartExists);
     if (chartExists) {
-      //update data, update layout
-      // document.querySelector('.plot-container').remove();
       Plotly.newPlot('chart-plotly', dataToChart, layout, {displayModeBar: false, responsive: true, displayLogo: false});
     } else {
       Plotly.newPlot('chart-plotly', dataToChart, layout, {displayModeBar: false, responsive: true, displayLogo: false});
